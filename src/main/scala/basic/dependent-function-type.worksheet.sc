@@ -19,6 +19,14 @@ val a: Option[Age.Value] = db.get(Age)
 // Dependent Function Types
 // As seen above, Scala 2 already had support for dependent method types. However, creating values of type DB is quite cumbersome:
 // a user of a DB
+
+trait Entry {
+  type Key;
+  val key: Key
+}
+def extractKey(e: Entry): e.Key = e.key
+val extractor: (e: Entry) => e.Key = extractKey // only fine in Scala 3
+
 def user(db: DB): Unit =
   db.get(Name) ??? db.get(Age)
 
